@@ -4,7 +4,7 @@ from tkinter.filedialog import askopenfilename
 from tkinter import ttk, StringVar
 from PIL import Image, ImageTk
 from tkinter import Canvas,W
-from convert import *
+from magicicon import *
 import tkinter.messagebox
 import os.path
 
