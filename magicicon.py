@@ -35,7 +35,6 @@ def convert(filename,size,filetype):
                 filen=filen+'.ico'
             
             try:
-                print(filen)
                 img=img.resize(size, Image.ANTIALIAS)
                 img.save(filen)
                 

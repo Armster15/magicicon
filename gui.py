@@ -7,6 +7,7 @@ from tkinter import Canvas,W
 from magicicon import *
 import tkinter.messagebox
 import os.path
+import os
 
 
 def validate(filetype):
@@ -72,11 +73,16 @@ radiobuttons = [
     ('Auto','7')
 ]
 
+
 #if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
 
 root=Tk()
 
-img = ImageTk.PhotoImage(Image.open('logo.png'))
+root.tk.call('wm', 'iconphoto', root._w, ImageTk.PhotoImage(file='images/icon.png')) #sets the icon of root
+
+root.title('MagicIcon')
+                
+img = ImageTk.PhotoImage(Image.open('images/logo.png'))
 
 m=tkinter.Label(root,image=img)
 m.pack()
@@ -84,7 +90,6 @@ m.pack()
 by=tkinter.Label(root,text="by Armaan Aggarwal \n ------------------------")
 by.pack()
 
-#root.geometry('92x227')
 
 size_var = StringVar()
 size_var.set('L')#initialize
