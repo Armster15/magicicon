@@ -3,7 +3,7 @@ from tkinter.filedialog import asksaveasfile
 from PIL import Image
 import time
 import os
-from randomstring import randomstring #to ensure that files won't be corrupted during conversion
+from securefiles import randomstring #to ensure that files won't be corrupted during conversion
 
 def convert(filename,size,filetype):
     """Converts a .png, .jpeg or .jpg into a .ico, .icns or .png icon file
