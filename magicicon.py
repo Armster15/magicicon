@@ -3,7 +3,7 @@ from tkinter.filedialog import asksaveasfile
 from PIL import Image
 import time
 import os
-from securefiles import randomstring #to ensure that files won't be corrupted during conversion
+from utils import randomstring #to ensure that files won't be corrupted during conversion
 
 def convert(filename,size,filetype):
     """Converts a .png, .jpeg or .jpg into a .ico, .icns or .png icon file
@@ -40,9 +40,13 @@ def convert(filename,size,filetype):
                 filen=filen+'.ico'
             
             try:
-                img=img.resize(size, Image.ANTIALIAS)
-                img.save(filen)
+                if size=='Auto':
                 
+                    img.save(filen)
+
+                else:
+                    img=img.resize(size, Image.ANTIALIAS)
+                    
             except:
                 #'converts' the .ico file to .png so PIL can recognize it
                 #after the file is generated and saved,
@@ -64,8 +68,12 @@ def convert(filename,size,filetype):
                 filen=filen+'.icns'
                 
             try:
-                img=img.resize(size, Image.ANTIALIAS)
-                img.save(filen)
+                if size=='Auto':
+                
+                    img.save(filen)
+
+                else:
+                    img=img.resize(size, Image.ANTIALIAS)
 
             except:  
                 #'converts' the .icns file to .png so PIL can recognize it
