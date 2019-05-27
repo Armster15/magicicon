@@ -1,7 +1,7 @@
 # magicicon
 Created by Armaan Aggarwal on May 19, 2019
 
-Last updated on May 22, 2019
+Last updated on May 26, 2019
 
 
 A python module that can create .ico, .icns and .png files, regardless of the operating system!
