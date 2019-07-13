@@ -11,9 +11,9 @@ A python module that can create .ico, .icns and .png files, regardless of the op
 ****
 
 ### Usage:
-* **iconmaker.py:**
+* **magicicon.py:**
 
-	iconmaker.py has a function called convert(). 
+	magicicon.py has a function called convert(). 
 	convert() takes three parameters: `filename`, `size` and `filetype`.
 	
 	****
