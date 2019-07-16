@@ -1,17 +1,19 @@
 # magicicon
 Created by Armaan Aggarwal on May 19, 2019
 
-Last updated on May 22, 2019
+Last updated on May 26, 2019
 
 
 A python module that can create .ico, .icns and .png files, regardless of the operating system!
 
+**Note this package requires PIL, which can be installed via pip by calling** `pip install Pillow`
+
 ****
 
 ### Usage:
-* **iconmaker.py:**
+* **magicicon.py:**
 
-	iconmaker.py has a function called convert(). 
+	magicicon.py has a function called convert(). 
 	convert() takes three parameters: `filename`, `size` and `filetype`.
 	
 	****
