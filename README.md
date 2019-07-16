@@ -6,7 +6,11 @@ Last updated on July 15, 2019
 
 A python module that can create .ico, .icns and .png files, regardless of the operating system! This project also has a GUI.
 
-**Note this package requires PIL and CloudConvert, which can be installed via pip by calling** `pip install Pillow cloudconvert` **in your command line.**
+**Note this package requires PIL and CloudConvert, which can be installed via pip by calling** 
+
+`pip install Pillow cloudconvert` 
+
+**in your command line.**
 
 ****
 
