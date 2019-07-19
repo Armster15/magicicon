@@ -100,11 +100,11 @@ if __name__ == '__main__':  # When spawned as separate process.
             #   argv[1]: name of script that imported this module
             #   argv[2]: name of redirected stream (optional)
             if len(sys.argv) < 2:
-                title = "Output stream from unknown source"
+                title = "Output for MagicIcon GUI"
             elif len(sys.argv) < 3:
-                title = "Output stream from %s" % (sys.argv[1],)
+                title = "Output for MagicIcon GUI"
             else:  # Assume it's a least 3.
-                title = "Output stream '%s' from %s" % (sys.argv[2], sys.argv[1])
+                title = "Output for MagicIcon GUI"
             self.master.title(title)
             self.pack(fill=BOTH, expand=YES)
             font = tkFont.Font(family='Courier', size=font_size)
@@ -119,7 +119,7 @@ if __name__ == '__main__':  # When spawned as separate process.
             self.logwidget.bind('<Key>', lambda x: 'break')
             self.logwidget.bind('<Control-c>', lambda x: None)
             self.logwidget.configure(foreground=text_color)
-            self.logwidget.insert(END, '==== Output ====\n\n')
+            self.logwidget.insert(END, '==== Output for MagicIcon GUI ====\n\n')
             self.logwidget.see(END)
             self.after(200, self.start_thread, ())  # Start polling thread.
 

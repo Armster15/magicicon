@@ -1,8 +1,13 @@
+from __future__ import print_function
+    
 import subprocess
 import sys
 
 def convert(filename,outputfile):
     import cloudconvert as c
+
+    # to write output to output.txt
+    o=open('output.txt', 'w')
 
     def get_extension(filename):
         import os.path
@@ -10,7 +15,7 @@ def convert(filename,outputfile):
 
     filen_extension=get_extension(filename)
 
-    print("Uploading file to server...")
+    print('Uploading file to server...',file=o)
 
     api=c.Api('MJ9qM1Eu2PhM7yegfHBQiAjxrcUmGQCo3uC1yymNyPoiUGFhXIUpbtIHXkQjiBJP') #api key for cloudconvert 
     process = api.convert({
@@ -20,11 +25,15 @@ def convert(filename,outputfile):
         'file': open(filename, 'rb')
     })
         
-    print("Uploaded file to server. Converting....")
+    print('Uploaded file to server. Converting....',file=o)
+
     process.wait()
+
     download_file_name=filename.replace(filen_extension,'.icns')
-    print("Downloading....")
+
+    print('Downloading....',file=o)
     process.download(outputfile)
-    print("Done!")
+
+    print('Done!',file=o)
 
 

@@ -1,6 +1,10 @@
+import sys
 import tkinter
 import tkinter.messagebox
-import errorwindow
+
+if sys.platform=='win32':
+    import errorwindow
+
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfile
@@ -12,14 +16,15 @@ import os.path
 import os
 from sys import exit
 from tkinter import ttk
-import sys
 import webbrowser
 
 
 
 import glob, os
 
-if sys.platform=='win32':
+output='None'
+
+if sys.platform=='win32' or sys.platform=='darwin':
     path=(os.path.dirname(sys.argv[0]))
 else:
     path=os.path.realpath(__file__)
@@ -49,8 +54,9 @@ def on_close():
     del errorwindow
 
 def error(errortitle, message):
-    print()
-    print("ERROR: {0}: {1}".format(errortitle,message)) #for output window
+    #For now, it will only pop up an error, not print.
+    #print()
+    #print("ERROR: {0}: {1}".format(errortitle,message)) #for output window
 
         
     tkinter.messagebox.showerror(errortitle,message)#for messagebox
@@ -60,7 +66,7 @@ def is_connected():
     try:
         # connect to the host -- tells us if the host is actually
         # reachable
-        socket.create_connection(("www.google.com", 80))
+        socket.create_connection(("www.github.com", 80))
         return True
     except OSError:
         pass
@@ -69,8 +75,13 @@ def is_connected():
 def selectfile():
     global filename
     global changefiletext
+    global _2f
+
+    _2f.configure(text="No output produced",foreground="black")
+    _2f.update()
+
     filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
-    
+
     a=filename.replace(' ',"")#for checking if file is selected or not
     if a!='':
         changefiletext.set(filename)
@@ -80,9 +91,15 @@ def selectfile():
 def saveas(filetype):
     global filename
     global filet
+    global _2f
+
     from cloudconvert.exceptions import(
     APIError, HTTPError, BadRequest, ConversionFailed, TemporaryUnavailable, InvalidResponse, InvalidParameterException
     )#we need this just in case if the user puts in a bad file (pdf to ico is one example)
+
+    _2f.configure(text="No output produced",foreground="black")
+    _2f.update()
+
     if filename!=None:
         if filetype=='.ico':
             filet = [('.ico (Windows Icon File)', '*.ico')]
@@ -91,24 +108,32 @@ def saveas(filetype):
             filet = [('.icns (Apple Icon File)', '*.icns')]
 
         if filetype=='.png':
-            filet = [('.png File', '*.png')]
+                filet = [('.png File', '*.png')]
                 
         filen = asksaveasfile(mode='w', defaultextension=filetype,filetypes=filet)
         if filen=='' or filen is None:
             return
         else:
             filen=filen.name
-
+            _2f.configure(text='Converting...',foreground="black")
+            _2f.update()
+            os.remove(filen)#to prevent user confusion
         try:
             convert(filename,filen)
+            _2f.configure(text='Completed!')
+            _2f.update()
             
         except BadRequest:
+            _2f.configure(text='ERROR: Invalid Input file',foreground="red")
+
             error("Invalid Input file","Unable to convert the requested file into an \
-    icon file. Either the file is courrupted or the inputed file simply cannot be converted into an icon file.")
+icon file. Either the file is corrupted or the inputed file simply cannot be converted into an icon file.")
 
         except HTTPError:
+            _2f.configure(text='ERROR: Cannot connect to server',foreground="red")
+
             error("Cannot connect to server", "Cannot connect to server. Try looking \
-    at your internet connection and restart the program.")
+at your internet connection and restart the program.")
 
     else:
         tkinter.messagebox.showerror('No file selected','You have to select a file to create an icon file!')#for messagebox
@@ -133,8 +158,8 @@ radiobuttons = [
 
 root=Tk()
 
-iconpath=os.path.normpath(r'{}\media\icon.png'.format(path))   
-imgicon=Image.open(iconpath)
+iconpath=os.path.normpath(r'{}/media/icon.png'.format(path))   
+imgicon=Image.open('media/icon.png')
 root.tk.call('wm', 'iconphoto', root._w, 
     ImageTk.PhotoImage(imgicon)) #sets the icon of root
 
@@ -143,7 +168,7 @@ root.title('MagicIcon')
 root.protocol("WM_DELETE_WINDOW",  on_close)
 
 titleimg=os.path.normpath('{}\media\logo.png'.format(path))        
-img = ImageTk.PhotoImage(Image.open(titleimg))
+img = ImageTk.PhotoImage(Image.open('media/logo.png'))
 m=tkinter.Label(root,image=img)
 m.pack()
 
@@ -169,8 +194,14 @@ filebutton.pack(side=tkinter.TOP)
 w = tkinter.Label(root,textvariable=changefiletext, text="Select a file")
 w.pack()
 
-f=tkinter.Label(root, text="------------------------")
+f=tkinter.Label(root, text="------------------------ \n Output:")
 f.pack()
+
+_2f=tkinter.Label(root, text="No output produced.")
+_2f.pack()
+
+_3f=tkinter.Label(root, text="------------------------")
+_3f.pack()
 
 ##    R1 = tkinter.Radiobutton(root, text='16x16',variable=size_var, value = '1')
 ##    R2 = tkinter.Radiobutton(root, text='32x32',variable=size_var, value = '2')
@@ -204,26 +235,26 @@ z=tkinter.Label(root, text=" ")
 z.pack()
 
 reporterror=os.path.normpath(r'{}\media\report_error.png'.format(path))        
-img2 = ImageTk.PhotoImage(Image.open(reporterror))
+img2 = ImageTk.PhotoImage(Image.open('media/report_error.png'))
 r = tkinter.Button(root, text="Report an Error", image=img2, highlightthickness = 0, bd = 0, command=reporterror_func)
 r.pack()
 
 
 aboutimg=os.path.normpath(r'{}\media\About2.png'.format(path))        
-infoimg = ImageTk.PhotoImage(Image.open(aboutimg))
+infoimg = ImageTk.PhotoImage(Image.open('media/About2.png'))
 infopack = tkinter.Button(root, text="About", image=infoimg, highlightthickness = 0, bd = 0, command=info)
 infopack.pack()
 
 viewongit=os.path.normpath(r'{}\media\ViewOnGithub.png'.format(path))        
-gitimg = ImageTk.PhotoImage(Image.open(viewongit))
+gitimg = ImageTk.PhotoImage(Image.open('media/ViewOnGithub.png'))
 gitpack = tkinter.Button(root, text="View on Github", image=gitimg, highlightthickness = 0, bd = 0, command=view_on_github)
 gitpack.pack()
 
-if is_connected()==False:
-    tkinter.messagebox.showerror("No internet connection", "An internet connection is required \
-for this program to function. Please connect to the Internet and restart this tool.")
-    root.destroy()
-    exit()
+# if is_connected()==False:
+#     tkinter.messagebox.showerror("No internet connection", "An internet connection is required \
+# for this program to function. Please connect to the Internet and restart this tool.")
+#     root.destroy()
+#     exit()
 
 root.mainloop()
 
