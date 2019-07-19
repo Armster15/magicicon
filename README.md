@@ -44,3 +44,4 @@ A python module that can create .ico, .icns and .png files, regardless of the op
 1. Reduced dependability on `errorwindow.py`.
 2. Made error messages more cleaner.
 3. Made output more advanced
+4. Added Python 2 support
