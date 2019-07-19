@@ -1,11 +1,17 @@
 import sys
 import tkinter
-import tkinter.messagebox
+
+try:
+    import tkinter
+except:
+    import Tkinter as tkinter
 
 if sys.platform=='win32':
     import errorwindow
 
+    
 from tkinter import Tk
+import tkinter.messagebox
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfile
 from tkinter import ttk, StringVar
